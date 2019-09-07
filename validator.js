@@ -7,17 +7,21 @@ function printError(elemId, hintMsg) {
 function validateForm() {
     // Retrieving the values of form elements 
     var name = document.contactForm.name.value;
-    var subject = document.contactForm.subject.value;
     var email = document.contactForm.email.value;
     var mobile = document.contactForm.mobile.value;
     var country = document.contactForm.country.value;
     var gender = document.contactForm.gender.value;
-    var message = document.contactForm.message.value;
-
-   
+    var hobbies = [];
+    var checkboxes = document.getElementsByName("hobbies[]");
+    for(var i=0; i < checkboxes.length; i++) {
+        if(checkboxes[i].checked) {
+            // Populate hobbies array with selected values
+            hobbies.push(checkboxes[i].value);
+        }
+    }
     
 	// Defining error variables with a default value
-    var nameErr = subjectErr = emailErr = mobileErr = countryErr = genderErr = messageErr = true;
+    var nameErr = emailErr = mobileErr = countryErr = genderErr = true;
     
     // Validate name
     if(name == "") {
@@ -44,22 +48,6 @@ function validateForm() {
             printError("emailErr", "");
             emailErr = false;
         }
-    }
-
-    // Validate subject
-    if(Subject == "") {
-        printError("subjectErr", "Please enter your subject");
-    } else {
-        printError("subjectErr", "");
-        subjectErr = false;
-    }
-
-    // Validate message
-    if(message == "") {
-        printError("messageErr", "Please enter your subject");
-    } else {
-        printError("messageErr", "");
-        messageErr = false;
     }
     
     // Validate mobile number
@@ -98,13 +86,13 @@ function validateForm() {
         // Creating a string from input data for preview
         var dataPreview = "You've entered the following details: \n" +
                           "Full Name: " + name + "\n" +
-                          "Subject: " + subject + "\n" +
                           "Email Address: " + email + "\n" +
                           "Mobile Number: " + mobile + "\n" +
                           "Country: " + country + "\n" +
-                          "Gender: " + gender + "\n" +
-                          "Message: " + message + "\n" ;
-        
+                          "Gender: " + gender + "\n";
+        if(hobbies.length) {
+            dataPreview += "Hobbies: " + hobbies.join(", ");
+        }
         // Display input data in a dialog box before submitting the form
         alert(dataPreview);
     }
